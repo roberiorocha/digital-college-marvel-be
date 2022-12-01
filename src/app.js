@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
 import createError from "http-errors";
+import cors from "cors"
 
 import { checkIfIsAutenticated, logErrors } from "./middlewares";
 import { readDBAsync, writeDBAsync } from "./db/db";
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(cors());
 
 app.post("/auth/signup", async (req, res, next) => {
   try {
