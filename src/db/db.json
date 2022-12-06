@@ -1,1 +1,1 @@
-{"users":[{"id":0,"name":"Cicero","email":"cicerohen2@gmail.com","password":"blabla"}]}
+{"users":[{"id":0,"email":"roberiorocha@gmail.com","password":"123456","_salt":"7v3xLWp5uz8XR9Nv140aF8yc","_hashedPassword":"GlPxDMKcvyfXLYZv8Qvxv74PoY+N1uapiBP3G2sXS8TBMY7il76gVD541JG3rIQCJfjaaulQmCuPDGoLW3PKaQ=="},{"id":1,"email":"roberiorocha2@gmail.com","password":"123456","_salt":"qSykvorB0n4HcBNgiCvzv0Ky","_hashedPassword":"gBb/l/FPE34/HV/NHrlXmiHUqiqvaKZuB3sp4GmnJQNKQbULpSWwJBICjCP+OmNKIxAyvBKoEiJ7POcwemYTMw=="}]}

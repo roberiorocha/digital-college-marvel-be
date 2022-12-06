@@ -7,7 +7,12 @@ import cors from "cors"
 import { checkIfIsAutenticated, logErrors } from "./middlewares";
 import { readDBAsync, writeDBAsync } from "./db/db";
 
-import { userAlreadyExists, signToken } from "./auth";
+import { 
+  userAlreadyExists, 
+  signToken,
+  makeSalt,
+  encryptPassword,
+} from "./auth";
 
 import { fetchApi } from "./api";
 
@@ -23,6 +28,10 @@ app.post("/auth/signup", async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
+    if (!password) {
+      throw new Error("Password is a required field");
+    }
+
     const userExists = await userAlreadyExists({ email });
 
     if (userExists) {
@@ -33,19 +42,34 @@ app.post("/auth/signup", async (req, res, next) => {
     const lastAddedUser = db.users[db.users.length - 1];
     const id = lastAddedUser ? lastAddedUser.id + 1 : 0;
 
-    const user = {
+     const _salt = makeSalt();
+     const _hashedPassword = encryptPassword(password, _salt);
+
+    const _user = {
       id,
       name,
       email,
       password,
+      _salt,
+      _hashedPassword,
     };
 
-    db.users.push(user);
+    const user = {
+      id,
+      name,
+      email,
+    };
+
+    const access_token = signToken({ email });
+
+    db.users.push(_user);
 
     await writeDBAsync(db);
-    const access_token = signToken({ email });
+
+    //const access_token = signToken({ email });
     res.status(200).json({ user, access_token });
   } catch (err) {
+    console.log(err);
     next(createError(401));
   }
 });

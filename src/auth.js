@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { readDBAsync } from "./db/db";
+import crypto from "crypto"
 
 export const signToken = (payload) => jwt.sign(payload, "digitalcollege");
 
@@ -15,4 +16,14 @@ export const userAlreadyExists = async ({ email }) => {
   } catch (_) {
     return false;
   }
+};
+
+export const makeSalt = () => {
+  return crypto.randomBytes(18).toString("base64");
+};
+
+export const encryptPassword = (plainPassword = "", salt = "") => {
+  return crypto
+  .pbkdf2Sync(plainPassword, salt, 100000, 64, "sha512")
+  .toString("base64");
 };
